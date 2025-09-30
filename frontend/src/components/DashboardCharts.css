@@ -1,0 +1,717 @@
+/* Dashboard Charts Styles */
+.dashboard-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 2rem;
+  padding: 0;
+  background: transparent;
+  min-height: auto;
+}
+
+.chart-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+.chart-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.chart-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #667eea, #764ba2, #06b6d4);
+}
+
+.chart-header {
+  margin-bottom: 2rem;
+  text-align: center;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+}
+
+.chart-header h3 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin: 0 0 0.75rem 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.025em;
+}
+
+.chart-header p {
+  color: #64748b;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.chart-content {
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Loading State */
+.charts-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 1rem;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e5e7eb;
+  border-top: 4px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.charts-loading p {
+  color: #6b7280;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Empty Chart State */
+.empty-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: #9ca3af;
+  padding: 2rem;
+}
+
+.empty-chart svg {
+  opacity: 0.5;
+}
+
+.empty-chart p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Citas por Estado */
+.estado-chart {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.estado-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border-radius: 16px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.estado-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 5px;
+  background: linear-gradient(180deg, #667eea, #764ba2);
+}
+
+.estado-item:hover {
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  transform: translateX(8px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+.estado-info {
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.estado-label {
+  font-weight: 700;
+  color: #1f2937;
+  font-size: 1.1rem;
+  text-transform: capitalize;
+}
+
+.estado-count {
+  font-size: 1rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.estado-bar {
+  flex: 1;
+  height: 16px;
+  background: rgba(226, 232, 240, 0.5);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.estado-fill {
+  height: 100%;
+  border-radius: 8px;
+  transition: width 1s ease;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.estado-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shimmer 2.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.estado-fill.confirmada {
+  background: linear-gradient(135deg, #10b981, #34d399);
+}
+
+.estado-fill.pendiente {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+}
+
+.estado-fill.programada {
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+}
+
+.estado-fill.cancelada {
+  background: linear-gradient(135deg, #ef4444, #f87171);
+}
+
+.estado-fill.completada {
+  background: linear-gradient(135deg, #10b981, #34d399);
+}
+
+.estado-percentage {
+  min-width: 60px;
+  text-align: right;
+  font-weight: 700;
+  color: #1f2937;
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+/* Citas por Día - Histograma Profesional */
+.dia-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 0.5rem;
+  height: 280px;
+  padding: 2rem 2rem 1.5rem 2rem;
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  border-radius: 20px;
+  margin: 2rem 0;
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+/* Líneas de cuadrícula horizontales */
+.dia-chart::before {
+  content: '';
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  right: 2rem;
+  bottom: 4.5rem;
+  background-image: 
+    linear-gradient(to bottom, transparent 0%, transparent 19%, rgba(148, 163, 184, 0.15) 20%, rgba(148, 163, 184, 0.15) 21%, transparent 22%),
+    linear-gradient(to bottom, transparent 0%, transparent 39%, rgba(148, 163, 184, 0.15) 40%, rgba(148, 163, 184, 0.15) 41%, transparent 42%),
+    linear-gradient(to bottom, transparent 0%, transparent 59%, rgba(148, 163, 184, 0.15) 60%, rgba(148, 163, 184, 0.15) 61%, transparent 62%),
+    linear-gradient(to bottom, transparent 0%, transparent 79%, rgba(148, 163, 184, 0.15) 80%, rgba(148, 163, 184, 0.15) 81%, transparent 82%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dia-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.dia-label {
+  font-size: 0.75rem;
+  color: #475569;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.dia-bar {
+  display: flex;
+  align-items: end;
+  height: 180px;
+  width: 100%;
+  justify-content: center;
+  padding: 0 0.25rem;
+  position: relative;
+}
+
+.dia-fill {
+  width: 100%;
+  max-width: 32px;
+  background: linear-gradient(to top, #4f46e5, #7c3aed, #a855f7);
+  border-radius: 6px 6px 0 0;
+  min-height: 4px;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  box-shadow: 
+    0 4px 20px rgba(79, 70, 229, 0.25),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dia-fill:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px rgba(79, 70, 229, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dia-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0.1) 30%, 
+    rgba(255, 255, 255, 0.3) 100%);
+  border-radius: 6px 6px 0 0;
+  pointer-events: none;
+}
+
+.dia-count {
+  font-size: 0.875rem;
+  color: #1e293b;
+  font-weight: 800;
+  margin-top: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  background: linear-gradient(135deg, #ffffff, #f1f5f9);
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  min-width: 28px;
+  text-align: center;
+}
+
+/* Estilos para la tabla de pacientes frecuentes */
+.patients-table-container {
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+
+.patients-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.patients-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.patients-table th {
+  padding: 16px 20px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.patients-table tbody tr {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.patients-table tbody tr:hover {
+  background-color: #f8f9ff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.patients-table td {
+  padding: 16px 20px;
+  vertical-align: middle;
+}
+
+/* Estilos específicos por ranking */
+.table-row.rank-1 {
+  background: linear-gradient(90deg, #fff9e6 0%, #ffffff 100%);
+  border-left: 4px solid #ffd700;
+}
+
+.table-row.rank-2 {
+  background: linear-gradient(90deg, #f5f5f5 0%, #ffffff 100%);
+  border-left: 4px solid #c0c0c0;
+}
+
+.table-row.rank-3 {
+  background: linear-gradient(90deg, #fff4e6 0%, #ffffff 100%);
+  border-left: 4px solid #cd7f32;
+}
+
+.table-row.rank-4,
+.table-row.rank-5 {
+  border-left: 4px solid #e0e0e0;
+}
+
+/* Celda de ranking */
+.rank-cell {
+  width: 80px;
+  text-align: center;
+}
+
+.rank-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.rank-number {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+.rank-medal {
+  font-size: 20px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-3px);
+  }
+  60% {
+    transform: translateY(-2px);
+  }
+}
+
+/* Celda de paciente */
+.patient-cell {
+  min-width: 200px;
+}
+
+.patient-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.patient-name {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}
+
+.patient-email {
+  font-size: 13px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Celdas de citas */
+.citas-cell,
+.completadas-cell {
+  text-align: center;
+  width: 120px;
+}
+
+.citas-total {
+  display: inline-block;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  min-width: 40px;
+}
+
+.citas-completadas {
+  display: inline-block;
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  min-width: 40px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .patients-table-container {
+    overflow-x: auto;
+  }
+  
+  .patients-table {
+    min-width: 600px;
+  }
+  
+  .patients-table th,
+  .patients-table td {
+    padding: 12px 16px;
+  }
+  
+  .patient-name {
+    font-size: 14px;
+  }
+  
+  .patient-email {
+    font-size: 12px;
+  }
+  
+  .rank-medal {
+    font-size: 16px;
+  }
+}
+
+/* Horarios Más Populares */
+.horarios-list-container {
+  width: 100%;
+  max-height: 350px;
+  overflow-y: auto;
+  padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.horarios-list-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.horarios-list-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.horarios-list-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.horarios-list-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
+}
+
+.horarios-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.horario-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border-radius: 16px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.horario-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, #667eea, #764ba2);
+}
+
+.horario-item:hover {
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  transform: translateX(6px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.15);
+}
+
+.horario-time {
+  min-width: 80px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #1f2937;
+  text-align: center;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.horario-bar {
+  flex: 1;
+  height: 12px;
+  background: rgba(226, 232, 240, 0.5);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.horario-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 6px;
+  transition: width 1s ease;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+}
+
+.horario-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shimmer 2.5s infinite;
+}
+
+.horario-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+  min-width: 120px;
+}
+
+.horario-total {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 10px;
+  border: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.horario-demanda {
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.horario-demanda.alta {
+  background: linear-gradient(135deg, #ef4444, #f87171);
+  color: white;
+}
+
+.horario-demanda.media {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  color: white;
+}
+
+.horario-demanda.baja {
+  background: linear-gradient(135deg, #10b981, #34d399);
+  color: white;
+}
+
+/* Responsive design para horarios */
+@media (max-width: 768px) {
+  .horarios-list-container {
+    max-height: 300px;
+  }
+  
+  .horario-item {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+  
+  .horario-time {
+    min-width: auto;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .horario-bar {
+    width: 100%;
+    height: 10px;
+  }
+  
+  .horario-stats {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    min-width: auto;
+  }
+}

@@ -1,0 +1,346 @@
+/* MisCitas Styles - Usando el mismo diseño moderno del Dashboard */
+
+/* Importamos todos los estilos del Dashboard */
+@import './Dashboard.css';
+
+/* Estilos específicos para filtros */
+.filtros-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1.5rem;
+  align-items: end;
+}
+
+.filtro-busqueda,
+.filtro-grupo,
+.filtro-fecha {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.filtro-input,
+.filtro-select {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  border: 2px solid rgba(226, 232, 240, 0.5);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.filtro-input:focus,
+.filtro-select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  background: white;
+}
+
+.filtro-busqueda svg,
+.filtro-grupo svg {
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+/* Estilos para información del paciente */
+.appointment-patient {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.patient-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.patient-name {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.patient-email {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.email-icon {
+  color: #9ca3af;
+  font-size: 0.7rem;
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+.patient-email small {
+  color: #9ca3af;
+  font-size: 0.75rem;
+  font-weight: 300;
+  opacity: 0.8;
+}
+
+/* Estilos específicos para las acciones de citas */
+.cita-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.cita-actions .btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  min-width: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+/* Botón de ver detalles */
+.cita-actions .btn-secondary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+}
+
+.cita-actions .btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+/* Botón de cancelar - estilo warning */
+.cita-actions .btn-warning {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  border: none;
+}
+
+.cita-actions .btn-warning:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(245, 87, 108, 0.3);
+}
+
+/* Botón de eliminar - estilo danger */
+.cita-actions .btn-danger {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+  border: none;
+}
+
+.cita-actions .btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+}
+
+.cita-meta {
+  margin-top: 0.5rem;
+}
+
+.cita-meta small {
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+/* Modal de confirmación */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 2.5rem;
+  max-width: 450px;
+  width: 100%;
+  box-shadow: 
+    0 25px 80px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  animation: slideUp 0.3s ease-out;
+}
+
+.modal-content h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+}
+
+.modal-content p {
+  margin: 0 0 2rem 0;
+  color: #64748b;
+  line-height: 1.6;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modal-actions .btn {
+  min-width: 120px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.modal-actions .btn-secondary {
+  background: rgba(148, 163, 184, 0.1);
+  color: #64748b;
+  border: 2px solid rgba(148, 163, 184, 0.3);
+}
+
+.modal-actions .btn-secondary:hover {
+  background: rgba(148, 163, 184, 0.2);
+  transform: translateY(-2px);
+}
+
+.modal-actions .btn-primary {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  border: none;
+}
+
+.modal-actions .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4);
+}
+
+/* Botón de eliminar en modal */
+.modal-actions .btn-danger {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+  border: none;
+}
+
+.modal-actions .btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+}
+
+/* Responsive para filtros */
+@media (max-width: 768px) {
+  .filtros-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .filtro-busqueda,
+  .filtro-grupo,
+  .filtro-fecha {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  
+  .filtro-input,
+  .filtro-select {
+    width: 100%;
+  }
+  
+  .cita-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .cita-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .modal-content {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+  }
+  
+  .modal-actions .btn {
+    width: 100%;
+  }
+}
+
+/* Animaciones adicionales */
+.modal-overlay {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mejoras en los estados de las citas */
+.appointment-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+/* Hover effects específicos */
+.filtro-input:hover,
+.filtro-select:hover {
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.modal-content {
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay:hover .modal-content {
+  transform: scale(1);
+}

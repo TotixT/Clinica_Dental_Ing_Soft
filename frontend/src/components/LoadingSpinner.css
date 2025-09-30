@@ -1,0 +1,62 @@
+.loading-spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  padding: 2rem;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.spinner-icon {
+  animation: spin 1s linear infinite;
+  color: #3b82f6;
+}
+
+.spinner-small .spinner-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.spinner-medium .spinner-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.spinner-large .spinner-icon {
+  width: 48px;
+  height: 48px;
+}
+
+.spinner-message {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Spinner para pantalla completa */
+.loading-spinner-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 9999;
+  min-height: 100vh;
+}
