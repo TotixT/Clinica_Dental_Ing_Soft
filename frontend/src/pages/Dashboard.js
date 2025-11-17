@@ -64,13 +64,15 @@ const Dashboard = () => {
         const citasProgramadas = citasData.filter(cita => cita.estado === 'programada').length;
         const citasPendientes = citasData.filter(cita => cita.estado === 'pendiente').length;
         const citasCanceladas = citasData.filter(cita => cita.estado === 'cancelada').length;
+        const citasNoAsistio = citasData.filter(cita => cita.estado === 'no_asistio').length;
         
         setEstadisticas({
           totalCitas,
           citasCompletadas,
           citasProgramadas,
           citasPendientes,
-          citasCanceladas
+          citasCanceladas,
+          citasNoAsistio
         });
       }
 
@@ -89,6 +91,14 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const fechaHoraCita = (cita) => {
+    if (!cita) return null;
+    const fechaStr = typeof cita.fecha === 'string'
+      ? cita.fecha.split('T')[0]
+      : new Date(cita.fecha).toISOString().split('T')[0];
+    return cita.hora ? new Date(`${fechaStr}T${cita.hora}`) : new Date(cita.fecha);
   };
 
   const formatearFecha = (fecha) => {
@@ -114,6 +124,8 @@ const Dashboard = () => {
         return 'status-completada';
       case 'cancelada':
         return 'status-cancelada';
+      case 'no_asistio':
+        return 'status-noasistio';
       default:
         return 'status-programada';
     }
@@ -129,6 +141,8 @@ const Dashboard = () => {
         return <CheckCircle size={16} className="text-green-500" />;
       case 'cancelada':
         return <XCircle size={16} className="text-red-500" />;
+      case 'no_asistio':
+        return <AlertCircle size={16} className="text-purple-600" />;
       default:
         return <AlertCircle size={16} className="text-gray-500" />;
     }
@@ -154,7 +168,7 @@ const Dashboard = () => {
     
     // Para citas programadas, verificar tiempo restante
     if (cita.estado === 'programada') {
-      const fechaCita = new Date(cita.fecha);
+      const fechaCita = fechaHoraCita(cita);
       const ahora = new Date();
       const horasHastaLaCita = (fechaCita - ahora) / (1000 * 60 * 60);
       return horasHastaLaCita >= 24;
@@ -178,11 +192,11 @@ const Dashboard = () => {
 
   const citasProximas = citas
     .filter(cita => {
-      const fechaCita = new Date(cita.fecha);
-      const hoy = new Date();
-      return fechaCita >= hoy && cita.estado === 'programada';
+      const fechaCita = fechaHoraCita(cita);
+      const ahora = new Date();
+      return fechaCita >= ahora && cita.estado === 'programada';
     })
-    .sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
+    .sort((a, b) => fechaHoraCita(a) - fechaHoraCita(b))
     .slice(0, 5);
 
   if (loading) {
@@ -273,6 +287,15 @@ const Dashboard = () => {
                 <div className="stat-value">{estadisticas.citasCanceladas || 0}</div>
                 <div className="stat-label">Citas Canceladas</div>
               </div>
+              <div className="stat-card">
+                <div className="stat-header">
+                  <div className="stat-icon">
+                    <AlertCircle size={24} />
+                  </div>
+                </div>
+                <div className="stat-value">{estadisticas.citasNoAsistio || 0}</div>
+                <div className="stat-label">No asistió</div>
+              </div>
               
               <div className="stat-card">
                 <div className="stat-header">
@@ -339,6 +362,15 @@ const Dashboard = () => {
                 </div>
                 <div className="stat-value">{estadisticas.citasCanceladas || 0}</div>
                 <div className="stat-label">Citas Canceladas</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-header">
+                  <div className="stat-icon">
+                    <AlertCircle size={24} />
+                  </div>
+                </div>
+                <div className="stat-value">{estadisticas.citasNoAsistio || 0}</div>
+                <div className="stat-label">No asistió</div>
               </div>
             </div>
           </div>

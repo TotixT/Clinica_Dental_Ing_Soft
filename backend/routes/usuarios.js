@@ -152,7 +152,7 @@ router.post('/', verificarToken, verificarAdmin, async (req, res) => {
 // PUT /api/usuarios/:id - Actualizar usuario (solo admin)
 router.put('/:id', verificarToken, verificarAdmin, async (req, res) => {
   try {
-    const { nombre, email, telefono, rol, activo } = req.body;
+    const { nombre, email, telefono, rol, activo, password } = req.body;
     const usuarioId = req.params.id;
 
     // Verificar que el usuario existe
@@ -181,6 +181,18 @@ router.put('/:id', verificarToken, verificarAdmin, async (req, res) => {
     if (telefono) camposActualizar.telefono = telefono;
     if (rol) camposActualizar.rol = rol;
     if (typeof activo === 'boolean') camposActualizar.activo = activo;
+
+    if (typeof password === 'string' && password.trim().length > 0) {
+      if (password.trim().length < 6) {
+        return res.status(400).json({ 
+          mensaje: 'La contraseña debe tener al menos 6 caracteres' 
+        });
+      }
+
+      const salt = await bcrypt.genSalt(10);
+      const passwordEncriptada = await bcrypt.hash(password.trim(), salt);
+      camposActualizar.password = passwordEncriptada;
+    }
 
     const usuarioActualizado = await Usuario.findByIdAndUpdate(
       usuarioId,

@@ -145,6 +145,7 @@ const CitaDetalle = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Cita completada exitosamente');
+      setMostrarConfirmacion(null);
       cargarCita(); // Recargar los datos de la cita
     } catch (error) {
       console.error('Error al completar cita:', error);
@@ -159,6 +160,7 @@ const CitaDetalle = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Cita autorizada exitosamente');
+      setMostrarConfirmacion(null);
       cargarCita(); // Recargar los datos de la cita
     } catch (error) {
       console.error('Error al autorizar cita:', error);

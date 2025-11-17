@@ -10,7 +10,9 @@ import {
   Save,
   X,
   ArrowLeft,
-  Shield
+  Shield,
+  Moon,
+  Sun
 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -21,6 +23,7 @@ const Perfil = () => {
   const navigate = useNavigate();
   
   const [modoEdicion, setModoEdicion] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('admin_dark_mode') === 'true');
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     nombre: usuario?.nombre || '',
@@ -28,6 +31,15 @@ const Perfil = () => {
     fechaNacimiento: usuario?.fechaNacimiento ? usuario.fechaNacimiento.split('T')[0] : ''
   });
   const [errors, setErrors] = useState({});
+
+  const toggleDarkMode = () => {
+    const next = !darkMode;
+    setDarkMode(next);
+    try {
+      localStorage.setItem('admin_dark_mode', String(next));
+      document.body.classList.toggle('admin-dark', next);
+    } catch (e) {}
+  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -163,15 +175,25 @@ const Perfil = () => {
           </h1>
           <p>Gestiona tu información personal</p>
         </div>
-        {!modoEdicion && (
+        <div className="header-actions">
+          {!modoEdicion && (
+            <button
+              onClick={() => setModoEdicion(true)}
+              className="btn btn-primary"
+            >
+              <Edit3 size={20} />
+              Editar Perfil
+            </button>
+          )}
           <button
-            onClick={() => setModoEdicion(true)}
-            className="btn btn-primary"
+            onClick={toggleDarkMode}
+            className="btn btn-secondary"
+            aria-label="Cambiar tema"
           >
-            <Edit3 size={20} />
-            Editar Perfil
+            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+            {darkMode ? 'Tema Claro' : 'Tema Oscuro'}
           </button>
-        )}
+        </div>
       </div>
 
       <div className="perfil-content">

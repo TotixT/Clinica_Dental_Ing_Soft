@@ -160,6 +160,10 @@
   border: 1px solid #e2e8f0;
   margin-left: 1rem;
 }
+body.admin-dark .user-info {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(148, 163, 184, 0.3);
+}
 
 .user-avatar {
   width: 38px;
@@ -192,12 +196,14 @@
   font-size: 0.9rem;
   color: #1e293b;
 }
+body.admin-dark .user-name { color: #e2e8f0; }
 
 .user-role {
   font-size: 0.75rem;
   color: #64748b;
   font-weight: 500;
 }
+body.admin-dark .user-role { color: #cbd5e1; }
 
 .logout-button {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);

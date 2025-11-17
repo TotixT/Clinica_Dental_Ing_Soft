@@ -16,6 +16,11 @@ body {
   line-height: 1.6;
 }
 
+body.admin-dark {
+  background-color: #0b1220;
+  color: #e2e8f0;
+}
+
 .App {
   min-height: 100vh;
   display: flex;
@@ -29,6 +34,12 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
+}
+
+body.admin-dark .navbar {
+  background: #0f172a;
+  box-shadow: none;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .navbar-container {
@@ -51,6 +62,10 @@ body {
   font-size: 1.5rem;
 }
 
+body.admin-dark .navbar-brand {
+  color: #e2e8f0;
+}
+
 .brand-icon {
   color: #3b82f6;
 }
@@ -68,6 +83,14 @@ body {
   font-weight: 500;
   transition: color 0.3s ease;
   padding: 0.5rem 0;
+}
+
+body.admin-dark .nav-link {
+  color: #cbd5e1;
+}
+body.admin-dark .nav-link:hover,
+body.admin-dark .nav-link.active {
+  color: #93c5fd;
 }
 
 .nav-link:hover,
@@ -99,6 +122,12 @@ body {
   background: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 1rem 2rem;
+}
+
+body.admin-dark .mobile-menu {
+  background: #0f172a;
+  box-shadow: none;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .mobile-menu.active {
@@ -297,6 +326,11 @@ body {
   border-bottom: 1px solid #e5e7eb;
   background: #f8fafc;
 }
+body.admin-dark .card-header {
+  background: rgba(15, 23, 42, 0.9);
+  border-bottom-color: rgba(148, 163, 184, 0.25);
+  color: #e2e8f0;
+}
 
 .card-body {
   padding: 1.5rem;
@@ -306,6 +340,10 @@ body {
   padding: 1rem 1.5rem;
   border-top: 1px solid #e5e7eb;
   background: #f8fafc;
+}
+body.admin-dark .card-footer {
+  background: rgba(15, 23, 42, 0.9);
+  border-top-color: rgba(148, 163, 184, 0.25);
 }
 
 /* Dashboard Styles */

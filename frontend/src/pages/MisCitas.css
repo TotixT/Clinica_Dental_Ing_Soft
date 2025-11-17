@@ -31,6 +31,13 @@
   transition: all 0.3s ease;
   font-family: inherit;
 }
+body.admin-dark .filtro-input,
+body.admin-dark .filtro-select {
+  background: #0b1220;
+  color: #e2e8f0;
+  border-color: rgba(148, 163, 184, 0.3);
+}
+body.admin-dark .filtro-input::placeholder { color: #94a3b8; }
 
 .filtro-input:focus,
 .filtro-select:focus {
@@ -65,6 +72,7 @@
   color: #374151;
   font-size: 0.9rem;
 }
+body.admin-dark .patient-name { color: #e2e8f0; }
 
 .patient-email {
   display: flex;
@@ -85,6 +93,7 @@
   font-weight: 300;
   opacity: 0.8;
 }
+body.admin-dark .patient-email small { color: #cbd5e1; }
 
 /* Estilos específicos para las acciones de citas */
 .cita-actions {
@@ -179,6 +188,12 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   animation: slideUp 0.3s ease-out;
 }
+body.admin-dark .modal-content {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+body.admin-dark .modal-content h3 { color: #e2e8f0; }
+body.admin-dark .modal-content p { color: #94a3b8; }
 
 .modal-content h3 {
   margin: 0 0 1rem 0;

@@ -177,6 +177,11 @@
   text-decoration: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
 }
+body.admin-dark .btn-back {
+  background: rgba(30, 41, 59, 0.8) !important;
+  color: #e2e8f0 !important;
+  border-color: rgba(148, 163, 184, 0.3) !important;
+}
 
 .btn-back:hover {
   background: rgba(102, 126, 234, 0.1) !important;

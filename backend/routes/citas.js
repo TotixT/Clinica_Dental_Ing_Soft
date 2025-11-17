@@ -520,15 +520,17 @@ router.get('/solicitudes/pendientes', [verificarToken, verificarAdmin], async (r
 // @access  Privado (Admin)
 router.get('/estadisticas/resumen', [verificarToken, verificarAdmin], async (req, res) => {
   try {
-    const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0);
+    const ahora = new Date();
+    const inicioHoyUTC = new Date(Date.UTC(ahora.getUTCFullYear(), ahora.getUTCMonth(), ahora.getUTCDate(), 0, 0, 0, 0));
+    const finHoyUTC = new Date(Date.UTC(ahora.getUTCFullYear(), ahora.getUTCMonth(), ahora.getUTCDate(), 23, 59, 59, 999));
 
     const estadisticas = await Promise.all([
       Cita.countDocuments({ estado: 'pendiente' }),
-      Cita.countDocuments({ estado: 'programada', fecha: { $gte: hoy } }),
+      Cita.countDocuments({ estado: 'programada', fecha: { $gte: inicioHoyUTC } }),
       Cita.countDocuments({ estado: 'completada' }),
       Cita.countDocuments({ estado: 'cancelada' }),
-      Cita.countDocuments({ fecha: { $gte: hoy, $lt: new Date(hoy.getTime() + 24 * 60 * 60 * 1000) } })
+      Cita.countDocuments({ estado: 'no_asistio' }),
+      Cita.countDocuments({ fecha: { $gte: inicioHoyUTC, $lte: finHoyUTC } })
     ]);
 
     res.json({
@@ -538,7 +540,8 @@ router.get('/estadisticas/resumen', [verificarToken, verificarAdmin], async (req
         citasProgramadas: estadisticas[1],
         citasCompletadas: estadisticas[2],
         citasCanceladas: estadisticas[3],
-        citasHoy: estadisticas[4]
+        citasNoAsistio: estadisticas[4],
+        citasHoy: estadisticas[5]
       }
     });
 

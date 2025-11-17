@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
+const Cita = require('./models/Cita');
 
 const app = express();
 
@@ -73,4 +74,45 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor TurnosPlus ejecutándose en puerto ${PORT}`);
   console.log(`📍 URL: http://localhost:${PORT}`);
+  // Tarea automática: marcar como no_asistio las citas vencidas
+  const horasGracia = parseInt(process.env.AUTO_NO_ASISTIO_HORAS || '48', 10);
+  const marcaNoAsistioSiVencida = async () => {
+    try {
+      const ahora = new Date();
+      const limite = new Date(ahora.getTime() - horasGracia * 60 * 60 * 1000);
+      // Buscar candidatas: programadas con fecha hasta hoy (reduce el conjunto)
+      const candidatas = await Cita.find({ estado: 'programada', fecha: { $lte: ahora } });
+      const ops = [];
+      for (const cita of candidatas) {
+        const fechaISO = cita.fecha instanceof Date ? cita.fecha.toISOString().split('T')[0] : String(cita.fecha).split('T')[0];
+        const fechaHora = cita.hora ? new Date(`${fechaISO}T${cita.hora}`) : new Date(cita.fecha);
+        if (fechaHora <= limite) {
+          ops.push({
+            updateOne: {
+              filter: { _id: cita._id },
+              update: {
+                $set: {
+                  estado: 'no_asistio',
+                  fechaActualizacion: new Date(),
+                  notas: (cita.notas ? `${cita.notas}\n` : '') + `Marcada automáticamente como no asistió (${horasGracia}h de gracia)`
+                }
+              }
+            }
+          });
+        }
+      }
+      if (ops.length > 0) {
+        const res = await Cita.bulkWrite(ops);
+        console.log(`🕒 Auto-marcado no_asistio: ${res.modifiedCount} citas actualizadas`);
+      } else {
+        console.log('🕒 Auto-marcado no_asistio: ninguna cita para actualizar');
+      }
+    } catch (e) {
+      console.error('⚠️ Error en auto-marcado no_asistio:', e);
+    }
+  };
+
+  // Ejecutar al iniciar y cada hora
+  marcaNoAsistioSiVencida();
+  setInterval(marcaNoAsistioSiVencida, 60 * 60 * 1000);
 });

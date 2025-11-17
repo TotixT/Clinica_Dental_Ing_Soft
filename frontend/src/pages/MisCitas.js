@@ -182,6 +182,8 @@ const MisCitas = () => {
         return 'status-completada';
       case 'cancelada':
         return 'status-cancelada';
+      case 'no_asistio':
+        return 'status-noasistio';
       default:
         return 'status-programada';
     }
@@ -197,6 +199,8 @@ const MisCitas = () => {
         return <CheckCircle size={16} className="text-green-500" />;
       case 'cancelada':
         return <XCircle size={16} className="text-red-500" />;
+      case 'no_asistio':
+        return <AlertCircle size={16} className="text-purple-600" />;
       default:
         return <AlertCircle size={16} className="text-gray-500" />;
     }
@@ -301,6 +305,7 @@ const MisCitas = () => {
                   <option value="programada">Programadas</option>
                   <option value="completada">Completadas</option>
                   <option value="cancelada">Canceladas</option>
+                  <option value="no_asistio">No asistió</option>
                 </select>
               </div>
               
@@ -363,6 +368,15 @@ const MisCitas = () => {
               </div>
               <div className="stat-value">{citas.filter(c => c.estado === 'cancelada').length}</div>
               <div className="stat-label">Canceladas</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-header">
+                <div className="stat-icon">
+                  <AlertCircle size={24} />
+                </div>
+              </div>
+              <div className="stat-value">{citas.filter(c => c.estado === 'no_asistio').length}</div>
+              <div className="stat-label">No asistió</div>
             </div>
           </div>
         </div>

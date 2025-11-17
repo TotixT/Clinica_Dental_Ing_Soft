@@ -12,15 +12,18 @@ import {
   XCircle,
   Plus,
   Edit,
-  Trash2
+  Trash2,
+  FileText,
+  FileSpreadsheet,
+  Download
 } from 'lucide-react';
 import GestionUsuarios from './GestionUsuarios';
-import Reportes from './Reportes';
 import DashboardCharts from '../components/DashboardCharts';
 import './AdminPanel.css';
 
 const AdminPanel = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem('admin_dark_mode') === 'true');
   const [loading, setLoading] = useState(true);
   const [estadisticas, setEstadisticas] = useState({
     totalUsuarios: 0,
@@ -40,6 +43,18 @@ const AdminPanel = () => {
       cargarDashboardData();
     }
   }, [activeSection]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('admin_dark_mode', String(darkMode));
+    } catch (e) {}
+  }, [darkMode]);
+
+  useEffect(() => {
+    try {
+      document.body.classList.toggle('admin-dark', darkMode);
+    } catch (e) {}
+  }, [darkMode]);
 
   const cargarDashboardData = async () => {
     try {
@@ -124,6 +139,156 @@ const AdminPanel = () => {
         return <Clock className="status-icon programada" />;
       default:
         return <Clock className="status-icon" />;
+    }
+  };
+
+  const exportarCSV = () => {
+    try {
+      const filas = [];
+      filas.push(['Resumen del Dashboard']);
+      filas.push(['Total Usuarios', estadisticas.totalUsuarios]);
+      filas.push(['Total Citas', estadisticas.totalCitas]);
+      filas.push(['Citas Hoy', estadisticas.citasHoy]);
+      filas.push(['Citas Programadas', estadisticas.citasProgramadas]);
+      filas.push(['Citas Completadas', estadisticas.citasCompletadas]);
+      filas.push(['Citas Canceladas', estadisticas.citasCanceladas]);
+      filas.push(['Nuevos Usuarios (mes)', estadisticas.nuevosUsuarios]);
+      filas.push(['Ingresos del Mes', estadisticas.ingresosMes]);
+      filas.push([]);
+
+      filas.push(['Citas Recientes']);
+      filas.push(['Paciente', 'Fecha', 'Hora', 'Motivo', 'Estado']);
+      citasRecientes.forEach((cita) => {
+        filas.push([
+          cita.paciente?.nombre || 'N/D',
+          formatDate(cita.fecha),
+          formatTime(cita.hora),
+          cita.motivo || '',
+          cita.estado || ''
+        ]);
+      });
+      filas.push([]);
+
+      filas.push(['Usuarios Recientes']);
+      filas.push(['Nombre', 'Email', 'Rol', 'Fecha Registro']);
+      usuariosRecientes.forEach((u) => {
+        filas.push([
+          u.nombre || 'N/D',
+          u.email || '',
+          u.rol || '',
+          formatDate(u.fechaRegistro)
+        ]);
+      });
+
+      const csv = filas
+        .map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(','))
+        .join('\n');
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `admin_panel_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success('Exportación a Excel (CSV) generada');
+    } catch (error) {
+      console.error('Error exportando CSV:', error);
+      toast.error('No se pudo exportar a Excel');
+    }
+  };
+
+  const exportarPDF = () => {
+    try {
+      const win = window.open('', '_blank');
+      const fecha = new Date().toLocaleString('es-ES');
+      const estilos = `
+        body { font-family: Arial, sans-serif; padding: 24px; }
+        h1 { font-size: 20px; margin-bottom: 8px; }
+        h2 { font-size: 16px; margin-top: 16px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+        th, td { border: 1px solid #ddd; padding: 8px; font-size: 12px; }
+        th { background: #f3f4f6; text-align: left; }
+      `;
+      const html = `
+        <html>
+          <head>
+            <title>Reporte Admin Panel</title>
+            <style>${estilos}</style>
+          </head>
+          <body>
+            <h1>Reporte Admin Panel</h1>
+            <div>Generado: ${fecha}</div>
+            <h2>Resumen</h2>
+            <table>
+              <tbody>
+                <tr><th>Total Usuarios</th><td>${estadisticas.totalUsuarios}</td></tr>
+                <tr><th>Total Citas</th><td>${estadisticas.totalCitas}</td></tr>
+                <tr><th>Citas Hoy</th><td>${estadisticas.citasHoy}</td></tr>
+                <tr><th>Citas Programadas</th><td>${estadisticas.citasProgramadas}</td></tr>
+                <tr><th>Citas Completadas</th><td>${estadisticas.citasCompletadas}</td></tr>
+                <tr><th>Citas Canceladas</th><td>${estadisticas.citasCanceladas}</td></tr>
+                <tr><th>Nuevos Usuarios (mes)</th><td>${estadisticas.nuevosUsuarios}</td></tr>
+                <tr><th>Ingresos del Mes</th><td>${estadisticas.ingresosMes}</td></tr>
+              </tbody>
+            </table>
+
+            <h2>Citas Recientes</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Paciente</th>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Motivo</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${citasRecientes.map(c => `
+                  <tr>
+                    <td>${c.paciente?.nombre || 'N/D'}</td>
+                    <td>${formatDate(c.fecha)}</td>
+                    <td>${formatTime(c.hora)}</td>
+                    <td>${c.motivo || ''}</td>
+                    <td>${c.estado || ''}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+
+            <h2>Usuarios Recientes</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Email</th>
+                  <th>Rol</th>
+                  <th>Registro</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${usuariosRecientes.map(u => `
+                  <tr>
+                    <td>${u.nombre || 'N/D'}</td>
+                    <td>${u.email || ''}</td>
+                    <td>${u.rol || ''}</td>
+                    <td>${formatDate(u.fechaRegistro)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </body>
+        </html>
+      `;
+      win.document.write(html);
+      win.document.close();
+      win.focus();
+      win.print();
+      toast.success('Exportación a PDF lista (usar Guardar como PDF)');
+    } catch (error) {
+      console.error('Error exportando PDF:', error);
+      toast.error('No se pudo exportar a PDF');
     }
   };
 
@@ -226,17 +391,22 @@ const AdminPanel = () => {
         {/* Gráficos detallados */}
         <DashboardCharts />
 
+        <div className="quick-actions">
+          <button className="quick-action-btn" onClick={exportarPDF}>
+            <FileText size={32} />
+            <span>Exportar como PDF</span>
+          </button>
+          <button className="quick-action-btn" onClick={exportarCSV}>
+            <FileSpreadsheet size={32} />
+            <span>Exportar como Excel</span>
+          </button>
+        </div>
+
         {/* Actividad reciente */}
         <div className="recent-activity">
           <div className="activity-card">
             <div className="activity-header">
               <h3>Citas Recientes</h3>
-              <button 
-                className="view-all-btn"
-                onClick={() => setActiveSection('citas')}
-              >
-                Ver todas
-              </button>
             </div>
             <div className="activity-content">
               {citasRecientes.length > 0 ? (
@@ -314,22 +484,31 @@ const AdminPanel = () => {
         return renderDashboard();
       case 'usuarios':
         return <GestionUsuarios />;
-      case 'citas':
-        return (
-          <div className="placeholder-content">
-            <Calendar size={64} />
-            <h3>Gestión de Citas</h3>
-            <p>Esta sección está en desarrollo. Por ahora puedes usar la página "Citas" del menú principal.</p>
-          </div>
-        );
-      case 'reportes':
-        return <Reportes />;
       case 'configuracion':
         return (
-          <div className="placeholder-content">
-            <Settings size={64} />
-            <h3>Configuración del Sistema</h3>
-            <p>Panel de configuración en desarrollo.</p>
+          <div className="dashboard-content">
+            <div className="activity-card">
+              <div className="activity-header">
+                <h3>Configuración</h3>
+              </div>
+              <div className="activity-content">
+                <div className="activity-list">
+                  <div className="activity-item">
+                    <Settings className="status-icon usuario" />
+                    <div className="activity-info">
+                      <div className="activity-title">Tema oscuro</div>
+                      <div className="activity-details">Apariencia del panel</div>
+                    </div>
+                    <button 
+                      className="view-all-btn"
+                      onClick={() => setDarkMode(!darkMode)}
+                    >
+                      {darkMode ? 'Desactivar' : 'Activar'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         );
       default:
@@ -338,7 +517,7 @@ const AdminPanel = () => {
   };
 
   return (
-    <div className="admin-panel">
+    <div className={`admin-panel ${darkMode ? 'dark' : ''}`}>
       <div className="admin-sidebar">
         <div className="sidebar-header">
           <h2>Admin Panel</h2>
@@ -353,7 +532,7 @@ const AdminPanel = () => {
             <BarChart3 size={20} />
             <span>Dashboard</span>
           </button>
-          
+
           <button 
             className={`nav-item ${activeSection === 'usuarios' ? 'active' : ''}`}
             onClick={() => setActiveSection('usuarios')}
@@ -361,23 +540,7 @@ const AdminPanel = () => {
             <Users size={20} />
             <span>Gestión de Usuarios</span>
           </button>
-          
-          <button 
-            className={`nav-item ${activeSection === 'citas' ? 'active' : ''}`}
-            onClick={() => setActiveSection('citas')}
-          >
-            <Calendar size={20} />
-            <span>Gestión de Citas</span>
-          </button>
-          
-          <button 
-            className={`nav-item ${activeSection === 'reportes' ? 'active' : ''}`}
-            onClick={() => setActiveSection('reportes')}
-          >
-            <TrendingUp size={20} />
-            <span>Reportes</span>
-          </button>
-          
+
           <button 
             className={`nav-item ${activeSection === 'configuracion' ? 'active' : ''}`}
             onClick={() => setActiveSection('configuracion')}

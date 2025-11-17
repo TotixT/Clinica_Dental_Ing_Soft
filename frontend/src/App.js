@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,6 +25,27 @@ import AdminPanel from './pages/AdminPanel';
 import './App.css';
 
 function App() {
+  const [isDark, setIsDark] = useState(() => localStorage.getItem('admin_dark_mode') === 'true');
+
+  useEffect(() => {
+    try {
+      const apply = localStorage.getItem('admin_dark_mode') === 'true';
+      document.body.classList.toggle('admin-dark', apply);
+      setIsDark(apply);
+    } catch (e) {}
+  }, []);
+
+  useEffect(() => {
+    const onStorage = (e) => {
+      if (e.key === 'admin_dark_mode') {
+        const apply = e.newValue === 'true';
+        document.body.classList.toggle('admin-dark', apply);
+        setIsDark(apply);
+      }
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
   return (
     <AuthProvider>
       <Router>
@@ -103,7 +124,7 @@ function App() {
             pauseOnFocusLoss
             draggable
             pauseOnHover
-            theme="light"
+            theme={isDark ? 'dark' : 'light'}
           />
         </div>
       </Router>

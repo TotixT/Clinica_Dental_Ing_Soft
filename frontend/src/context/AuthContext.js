@@ -213,6 +213,12 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     dispatch({ type: AUTH_ACTIONS.LOGOUT });
     setAuthToken(null);
+    try {
+      localStorage.setItem('admin_dark_mode', 'false');
+      if (typeof document !== 'undefined') {
+        document.body.classList.remove('admin-dark');
+      }
+    } catch (e) {}
     toast.info('Sesión cerrada correctamente');
   };
 

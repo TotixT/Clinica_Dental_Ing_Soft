@@ -264,7 +264,7 @@
 .empty-state p {
   margin: 0;
   font-size: 1rem;
-}
+  }
 
 /* Modal */
 .modal-overlay {
@@ -298,6 +298,65 @@
   border-bottom: 1px solid #e5e7eb;
   margin-bottom: 1.5rem;
 }
+
+.admin-panel.dark .modal-form label { color: #e2e8f0; }
+.admin-panel.dark .modal-form input,
+.admin-panel.dark .modal-form select {
+  background: #0b1220;
+  color: #e2e8f0;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+.admin-panel.dark .modal-form input::placeholder { color: #94a3b8; }
+.admin-panel.dark .modal-close { color: #e2e8f0; background: transparent; border: none; }
+
+/* ===== MODO OSCURO (dentro del Admin Panel) ===== */
+.admin-panel.dark .gestion-usuarios { color: #e2e8f0; }
+.admin-panel.dark .header-info h1 { color: #e2e8f0; }
+.admin-panel.dark .header-info p { color: #94a3b8; }
+
+.admin-panel.dark .search-box input {
+  background: #0b1220;
+  color: #e2e8f0;
+  border-color: rgba(148, 163, 184, 0.3);
+}
+.admin-panel.dark .search-box input::placeholder { color: #94a3b8; }
+
+.admin-panel.dark .filter-box select {
+  background: #0b1220;
+  color: #e2e8f0;
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+.admin-panel.dark .usuario-card {
+  background: rgba(15, 23, 42, 0.9);
+  border-color: rgba(148, 163, 184, 0.25);
+  box-shadow: none;
+}
+.admin-panel.dark .usuario-avatar { background: rgba(30, 41, 59, 0.7); }
+.admin-panel.dark .usuario-info h3 { color: #e2e8f0; }
+.admin-panel.dark .detail-item { color: #94a3b8; }
+
+.admin-panel.dark .btn-edit {
+  background: rgba(30, 41, 59, 0.6);
+  color: #e2e8f0;
+}
+.admin-panel.dark .btn-edit:hover { background: rgba(30, 41, 59, 0.8); }
+
+.admin-panel.dark .btn-delete {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fecaca;
+}
+.admin-panel.dark .btn-delete:hover { background: rgba(239, 68, 68, 0.25); }
+
+.admin-panel.dark .empty-state { color: #94a3b8; }
+
+.admin-panel.dark .modal { 
+  background: #0f172a; 
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+.admin-panel.dark .modal-header { border-color: rgba(148, 163, 184, 0.2); }
 
 .modal-header h2 {
   margin: 0;
