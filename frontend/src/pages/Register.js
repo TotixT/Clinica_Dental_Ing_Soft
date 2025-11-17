@@ -19,6 +19,8 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [passwordStrength, setPasswordStrength] = useState('');
+  const [passwordMatch, setPasswordMatch] = useState(null);
 
   const { register, isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -99,6 +101,27 @@ const Register = () => {
         [name]: ''
       }));
     }
+
+    if (name === 'password') {
+      const len = value.length;
+      const hasUpper = /[A-Z]/.test(value);
+      const hasLower = /[a-z]/.test(value);
+      const hasNumber = /\d/.test(value);
+      const hasSymbol = /[^A-Za-z0-9]/.test(value);
+      const score =
+        (len >= 6 ? 1 : 0) + (len >= 10 ? 1 : 0) + (hasUpper ? 1 : 0) + (hasLower ? 1 : 0) + (hasNumber ? 1 : 0) + (hasSymbol ? 1 : 0);
+      if (!value) setPasswordStrength('');
+      else if (score <= 2) setPasswordStrength('Contraseña muy débil');
+      else if (score <= 4) setPasswordStrength('Contraseña débil');
+      else if (score <= 5) setPasswordStrength('Contraseña aceptable');
+      else setPasswordStrength('Contraseña fuerte');
+    }
+
+    if (name === 'confirmPassword') {
+      setPasswordMatch(value && value === formData.password);
+    } else if (name === 'password') {
+      setPasswordMatch(formData.confirmPassword && formData.confirmPassword === value);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -146,20 +169,6 @@ const Register = () => {
 
   return (
     <div className="register-page">
-      {/* Header */}
-      <header className="register-header">
-        <div className="header-content">
-          <div className="brand">
-            <UserPlus className="brand-icon" size={28} />
-            <span className="brand-text">TurnosPlus</span>
-          </div>
-          <Link to="/login" className="back-to-login">
-            <ArrowLeft size={20} />
-            Volver al Login
-          </Link>
-        </div>
-      </header>
-
       {/* Main Content */}
       <main className="register-main">
         <div className="register-container">
@@ -287,8 +296,8 @@ const Register = () => {
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
-                        className={`form-input ${errors.password ? 'error' : ''}`}
-                        placeholder="Mínimo 6 caracteres"
+                      className={`form-input ${errors.password ? 'error' : ''}`}
+                        placeholder="Mínimo 6"
                         autoComplete="new-password"
                       />
                       <button
@@ -301,6 +310,11 @@ const Register = () => {
                       </button>
                     </div>
                     {errors.password && <span className="error-message">{errors.password}</span>}
+                    {!errors.password && passwordStrength && (
+                      <small className={`strength-hint ${passwordStrength.toLowerCase().includes('fuerte') ? 'ok' : ''}`}>
+                        {passwordStrength}
+                      </small>
+                    )}
                   </div>
 
                   <div className="form-group">
@@ -315,8 +329,8 @@ const Register = () => {
                         name="confirmPassword"
                         value={formData.confirmPassword}
                         onChange={handleChange}
-                        className={`form-input ${errors.confirmPassword ? 'error' : ''}`}
-                        placeholder="Repite tu contraseña"
+                      className={`form-input ${errors.confirmPassword ? 'error' : ''}`}
+                        placeholder="Repite"
                         autoComplete="new-password"
                       />
                       <button
@@ -329,6 +343,11 @@ const Register = () => {
                       </button>
                     </div>
                     {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+                    {!errors.confirmPassword && formData.confirmPassword && (
+                      <small className={`match-hint ${passwordMatch ? 'ok' : 'warn'}`}>
+                        {passwordMatch ? 'Las contraseñas coinciden' : 'La contraseña no coincide'}
+                      </small>
+                    )}
                   </div>
                 </div>
               </div>

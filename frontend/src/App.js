@@ -102,7 +102,7 @@ function App() {
               <Route 
                 path="/admin" 
                 element={
-                  <ProtectedRoute requiredRole="administrador">
+                  <ProtectedRoute adminOnly>
                     <AdminPanel />
                   </ProtectedRoute>
                 } 

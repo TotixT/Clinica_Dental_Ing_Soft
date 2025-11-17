@@ -96,12 +96,12 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.card-header {
+.register-page .card-header {
   text-align: center;
   margin-bottom: 2rem;
 }
 
-.header-icon {
+.register-page .header-icon {
   width: 80px;
   height: 80px;
   background: linear-gradient(135deg, #667eea, #764ba2);
@@ -114,14 +114,14 @@
   box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
 }
 
-.card-title {
+.register-page .card-title {
   font-size: 2rem;
   font-weight: 700;
   color: #1f2937;
   margin-bottom: 0.5rem;
 }
 
-.card-subtitle {
+.register-page .card-subtitle {
   color: #6b7280;
   font-size: 1rem;
   line-height: 1.6;
@@ -130,20 +130,19 @@
 }
 
 /* Form Sections */
-.register-form {
+.register-page .register-form {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
 }
 
-.form-section {
+.register-page .form-section {
   background: #f8fafc;
   border-radius: 12px;
   padding: 1.5rem;
   border: 1px solid #e2e8f0;
 }
 
-.section-title {
+.register-page .section-title {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -155,23 +154,23 @@
   border-bottom: 2px solid #e2e8f0;
 }
 
-.section-title svg {
+.register-page .section-title svg {
   color: #667eea;
 }
 
-.form-grid {
+.register-page .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
 }
 
-.form-group {
+.register-page .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.form-label {
+.register-page .form-label {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -180,11 +179,11 @@
   font-size: 0.875rem;
 }
 
-.form-label svg {
+.register-page .form-label svg {
   color: #667eea;
 }
 
-.form-input {
+.register-page .form-input {
   padding: 0.875rem 1rem;
   border: 2px solid #e2e8f0;
   border-radius: 10px;
@@ -194,30 +193,41 @@
   color: #1f2937;
 }
 
-.form-input:focus {
+.register-page .form-input:focus {
   outline: none;
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   transform: translateY(-1px);
 }
 
-.form-input.error {
+.register-page .form-input.error {
   border-color: #ef4444;
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
-.form-input::placeholder {
+.register-page .form-input::placeholder {
   color: #9ca3af;
 }
 
 /* Password Input Container */
-.password-input-container {
+.register-page .password-input-container {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.password-toggle {
+.register-page .strength-hint,
+.register-page .match-hint {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+.register-page .strength-hint.ok,
+.register-page .match-hint.ok { color: #16a34a; }
+.register-page .match-hint.warn { color: #ef4444; }
+
+.register-page .password-toggle {
   position: absolute;
   right: 1rem;
   background: none;
@@ -232,13 +242,13 @@
   justify-content: center;
 }
 
-.password-toggle:hover {
+.register-page .password-toggle:hover {
   color: #667eea;
   background: rgba(102, 126, 234, 0.1);
 }
 
 /* Error Messages */
-.error-message {
+.register-page .error-message {
   color: #ef4444;
   font-size: 0.875rem;
   font-weight: 500;
@@ -246,7 +256,7 @@
 }
 
 /* Submit Button */
-.submit-btn {
+.register-page .submit-btn {
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   border: none;
@@ -264,19 +274,19 @@
   box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
 }
 
-.submit-btn:hover:not(:disabled) {
+.register-page .submit-btn:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
 }
 
-.submit-btn:disabled {
+.register-page .submit-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
   transform: none;
 }
 
 /* Loading Spinner */
-.loading-spinner {
+.register-page .loading-spinner {
   width: 20px;
   height: 20px;
   border: 2px solid rgba(255, 255, 255, 0.3);
@@ -291,7 +301,7 @@
 }
 
 /* Card Footer */
-.card-footer {
+.register-page .card-footer {
   text-align: center;
   margin-top: 2rem;
   padding-top: 1.5rem;
