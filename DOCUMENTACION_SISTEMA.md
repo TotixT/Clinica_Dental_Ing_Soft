@@ -405,6 +405,20 @@ Cliente ← Estadísticas ← Servidor
 
 ---
 
+## Actualizaciones Recientes
+
+- Modo oscuro: se resetea al cerrar sesión y se elimina la clase global `admin-dark` (frontend/src/context/AuthContext.js:217-221). Se añadió botón de alternancia en el perfil del usuario usando `localStorage('admin_dark_mode')` y actualización del `body` (frontend/src/pages/Perfil.js:26,35,39,189).
+- Acceso por rol: el Panel de Administrador ahora exige rol de administrador mediante `ProtectedRoute` con `adminOnly` (frontend/src/App.js:103-109).
+- Registro con validación en tiempo real: indicador de fortaleza de contraseña y verificación de coincidencia de confirmación (frontend/src/pages/Register.js:22,113-117,121,123; frontend/src/pages/Register.css:219-228).
+- Dashboard: se corrige y expone el conteo de "No asistió" para pacientes y admin (frontend/src/pages/Dashboard.js:67,75,296,372).
+- Modal de autorización: se cierra correctamente tras autorizar/completar la cita para evitar estados UI obsoletos (frontend/src/pages/CitaDetalle.js:148,163).
+- Nueva Cita (modo oscuro): estilos coherentes para inputs, labels y secciones, condicionados por `body.admin-dark` (frontend/src/pages/NuevaCita.css:250-279).
+- Admin Panel (Usuarios recientes): truncado con `text-overflow: ellipsis` y `white-space: nowrap` para correos largos (frontend/src/pages/AdminPanel.css:516-522).
+- Citas Hoy: el backend calcula el rango del día en UTC y cuenta por fecha programada, no por fecha de creación (backend/routes/citas.js:523-545).
+- Estilos del Register: se encapsulan bajo `.register-page` para evitar colisiones con otras vistas (frontend/src/pages/Register.css:9,99,133,167,173,186,213,219-228).
+
+---
+
 ## Consideraciones de Seguridad
 
 1. **Autenticación JWT**: Tokens con expiración de 7 días

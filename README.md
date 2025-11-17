@@ -48,6 +48,9 @@ Sistema de reservas digital para la Clínica Dental SonriPlus que permite a los 
 - ✅ Middleware de seguridad y autorización
 - ✅ Agregaciones MongoDB para reportes
 - ✅ Manejo de errores centralizado
+- ✅ Tema oscuro con persistencia y reseteo al cerrar sesión
+- ✅ Control de acceso por roles en el panel de administración
+- ✅ Validación de contraseñas en tiempo real en el registro
 
 ## Estructura del Proyecto
 ```
@@ -165,6 +168,13 @@ Para contribuir al proyecto:
 3. Commit tus cambios (`git commit -am 'Agregar nueva funcionalidad'`)
 4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
 5. Crea un Pull Request
+
+## Changelog
+- Mejoras de modo oscuro: botón en perfil, estilos consistentes y reseteo al cerrar sesión
+- Control de acceso por roles: restricción de acceso al panel de administración
+- UX de contraseñas: indicador de fortaleza y confirmación en el registro
+- Unificación de estilos: tarjetas del Dashboard y corrección de colisiones de CSS
+- Correcciones: conteo de "No asistió" en Dashboard, cierre del modal de autorización y truncado de emails largos en Admin
 
 ## Desarrollado por
 Equipo de Ingeniería de Software - Universidad
